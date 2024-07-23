@@ -1,12 +1,13 @@
 package br.com.medina.livraria_spring.core.models;
 
-import org.springframework.data.annotation.Id;
+import java.math.BigDecimal;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -15,7 +16,7 @@ public class Livro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
@@ -27,7 +28,7 @@ public class Livro {
     private String autor;
 
     @Column(name = "preco", nullable = false, precision = 10, scale = 2)
-    private Double preco;
+    private BigDecimal preco;
 
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
@@ -39,7 +40,7 @@ public class Livro {
     public Livro() {
     }
 
-    public Livro(String titulo, String genero, String autor, Double preco, Integer quantidade,
+    public Livro(String titulo, String genero, String autor, BigDecimal preco, Integer quantidade,
             Fornecedor fornecedor) {
         this.titulo = titulo;
         this.genero = genero;
@@ -49,11 +50,11 @@ public class Livro {
         this.fornecedor = fornecedor;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -81,11 +82,11 @@ public class Livro {
         this.autor = autor;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

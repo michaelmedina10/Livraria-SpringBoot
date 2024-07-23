@@ -58,4 +58,12 @@ public class Cliente {
         this.sobrenome = sobrenome;
     }
 
+    public List<TelefoneCliente> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<TelefoneCliente> telefones) {
+        this.telefones = telefones;
+    }
+
 }
