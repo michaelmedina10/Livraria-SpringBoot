@@ -6,8 +6,6 @@ iremos fazer uso das seguintes tecnologias:
 - Java
 - SpringBoot
 - JPA (Hibernate)
-- Spring Security
-- OAUTH2 + JWT
 
 Iremos montar uma aplicaçãp fazendo uso das boas práticas adquiridas durante esses anos de experiência, iremos desenvolver usando conceitos como clean clode, arquitetura hexagonal, documentações, tudo que é
 aconselhado a ser usado em um projeto da "vida real".
