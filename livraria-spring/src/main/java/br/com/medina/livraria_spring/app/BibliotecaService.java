@@ -1,6 +1,5 @@
 package br.com.medina.livraria_spring.app;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class BibliotecaService {
         public FornecedorDTO criarFornecedor(FornecedorDTO fornecedorDTO) {
                 Fornecedor fornecedorExistente = fornecedorRepository.findByNome(fornecedorDTO.nome());
                 if (fornecedorExistente != null) {
-                        return toFornecedorDTO(fornecedorExistente);
+                        return Fornecedor.toFornecedorDTO(fornecedorExistente);
                 }
 
                 Fornecedor fornecedor = new Fornecedor(
@@ -72,7 +71,7 @@ public class BibliotecaService {
                 fornecedor.setTelefones(telefones);
 
                 Fornecedor fornecedorSalvo = fornecedorRepository.save(fornecedor);
-                return toFornecedorDTO(fornecedorSalvo);
+                return Fornecedor.toFornecedorDTO(fornecedorSalvo);
         }
 
         public LivroDTO criarLivro(LivroDTO livroDTO) {
@@ -138,52 +137,10 @@ public class BibliotecaService {
                 Fornecedor fornecedor = fornecedorRepository.findByNome(fornecedorNome);
                 if (fornecedor != null) {
                         return fornecedor.getLivros().stream()
-                                        .map(this::toLivroDTO)
+                                        .map(Livro::toLivroDTO)
                                         .collect(Collectors.toList());
                 }
                 return List.of();
-        }
-
-        private FornecedorDTO toFornecedorDTO(Fornecedor fornecedor) {
-                List<LivroDTO> livrosDTO = fornecedor.getLivros().stream()
-                                .map(this::toLivroDTO)
-                                .collect(Collectors.toList());
-
-                List<TelefoneFornecedorDTO> telefonesDTO = fornecedor.getTelefones().stream()
-                                .map(telefone -> new TelefoneFornecedorDTO(
-                                                telefone.getNumero(),
-                                                fornecedor.getNome()))
-                                .collect(Collectors.toList());
-
-                return new FornecedorDTO(
-                                fornecedor.getId(),
-                                fornecedor.getCnpj(),
-                                fornecedor.getNome(),
-                                fornecedor.getEndereco(),
-                                livrosDTO,
-                                telefonesDTO);
-        }
-
-        private LivroDTO toLivroDTO(Livro livro) {
-                Fornecedor fornecedor = livro.getFornecedor();
-                FornecedorDTO fornecedorDTO = fornecedor != null
-                                ? new FornecedorDTO(
-                                                fornecedor.getId(),
-                                                fornecedor.getCnpj(),
-                                                fornecedor.getNome(),
-                                                fornecedor.getEndereco(),
-                                                null, // Não incluir livros e telefones para evitar loop infinito
-                                                null)
-                                : null;
-
-                return new LivroDTO(
-                                livro.getId(),
-                                livro.getTitulo(),
-                                livro.getGenero(),
-                                livro.getAutor(),
-                                livro.getPreco(),
-                                livro.getQuantidade(),
-                                fornecedorDTO);
         }
 
         public ClienteDTO criarCliente(ClienteDTO clienteDTO) {
@@ -202,20 +159,7 @@ public class BibliotecaService {
                 Cliente clienteSalvo = clienteRepository.save(cliente);
 
                 // Converte o cliente salvo para DTO
-                return toClienteDTO(clienteSalvo);
-        }
-
-        private ClienteDTO toClienteDTO(Cliente cliente) {
-                List<TelefoneClienteDTO> telefoneDTOs = cliente.getTelefones() == null ? Collections.emptyList()
-                                : cliente.getTelefones().stream()
-                                                .map(telefone -> new TelefoneClienteDTO(telefone.getNumero()))
-                                                .collect(Collectors.toList());
-
-                return new ClienteDTO(
-                                cliente.getId(),
-                                cliente.getNome(),
-                                cliente.getSobrenome(),
-                                telefoneDTOs);
+                return Cliente.toClienteDTO(clienteSalvo);
         }
 
         public TelefoneClienteDTO criarTelefoneCliente(TelefoneClienteDTO telefoneClienteDTO, Integer clienteId) {

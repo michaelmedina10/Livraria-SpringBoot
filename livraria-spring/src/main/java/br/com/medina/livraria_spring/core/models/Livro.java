@@ -2,6 +2,8 @@ package br.com.medina.livraria_spring.core.models;
 
 import java.math.BigDecimal;
 
+import br.com.medina.livraria_spring.core.dtos.FornecedorDTO;
+import br.com.medina.livraria_spring.core.dtos.LivroDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -104,6 +106,28 @@ public class Livro {
 
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
+    }
+
+    public static LivroDTO toLivroDTO(Livro livro) {
+        Fornecedor fornecedor = livro.getFornecedor();
+        FornecedorDTO fornecedorDTO = fornecedor != null
+                ? new FornecedorDTO(
+                        fornecedor.getId(),
+                        fornecedor.getCnpj(),
+                        fornecedor.getNome(),
+                        fornecedor.getEndereco(),
+                        null, // Não incluir livros e telefones para evitar loop infinito
+                        null)
+                : null;
+
+        return new LivroDTO(
+                livro.getId(),
+                livro.getTitulo(),
+                livro.getGenero(),
+                livro.getAutor(),
+                livro.getPreco(),
+                livro.getQuantidade(),
+                fornecedorDTO);
     }
 
 }

@@ -2,7 +2,6 @@ package br.com.medina.livraria_spring.adapters;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +17,6 @@ import br.com.medina.livraria_spring.core.dtos.ClienteDTO;
 import br.com.medina.livraria_spring.core.dtos.FornecedorDTO;
 import br.com.medina.livraria_spring.core.dtos.LivroDTO;
 import br.com.medina.livraria_spring.core.dtos.TelefoneFornecedorDTO;
-import br.com.medina.livraria_spring.core.models.Cliente;
-import br.com.medina.livraria_spring.core.models.Fornecedor;
-import br.com.medina.livraria_spring.core.models.Livro;
-import br.com.medina.livraria_spring.core.models.TelefoneFornecedor;
 
 @RestController
 @RequestMapping("/biblioteca")

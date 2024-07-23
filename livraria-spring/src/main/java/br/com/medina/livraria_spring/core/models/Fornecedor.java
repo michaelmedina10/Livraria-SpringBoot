@@ -1,7 +1,11 @@
 package br.com.medina.livraria_spring.core.models;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import br.com.medina.livraria_spring.core.dtos.FornecedorDTO;
+import br.com.medina.livraria_spring.core.dtos.LivroDTO;
+import br.com.medina.livraria_spring.core.dtos.TelefoneFornecedorDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -89,4 +93,23 @@ public class Fornecedor {
         this.telefones = telefones;
     }
 
+    public static FornecedorDTO toFornecedorDTO(Fornecedor fornecedor) {
+        List<LivroDTO> livrosDTO = fornecedor.getLivros().stream()
+                .map(Livro::toLivroDTO)
+                .collect(Collectors.toList());
+
+        List<TelefoneFornecedorDTO> telefonesDTO = fornecedor.getTelefones().stream()
+                .map(telefone -> new TelefoneFornecedorDTO(
+                        telefone.getNumero(),
+                        fornecedor.getNome()))
+                .collect(Collectors.toList());
+
+        return new FornecedorDTO(
+                fornecedor.getId(),
+                fornecedor.getCnpj(),
+                fornecedor.getNome(),
+                fornecedor.getEndereco(),
+                livrosDTO,
+                telefonesDTO);
+    }
 }
